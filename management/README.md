@@ -64,3 +64,14 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+開発メモ
+１，勤怠管理システム
+２，ログイン機能
+３，出勤、打刻機能
+４，休憩機能
+５，出勤時間、退勤時間、休憩時間の一覧
+６，ユーザーの詳細情報機能
+７，カレンダー機能（打刻したらアイコンで表示させるようにしたらわかりやすいかも）
+８，
