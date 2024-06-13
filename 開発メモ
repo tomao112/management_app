@@ -1,0 +1,2 @@
+git 前日分をコミット
+git commit --allow-empty -m "COMMIT" --date="Dec 29 23:59:59 2019 +0900"

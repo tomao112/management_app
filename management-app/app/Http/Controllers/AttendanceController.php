@@ -13,7 +13,7 @@ class AttendanceController extends Controller
     {
         $userId = Auth::id();
         $date = Carbon::today()->toDateString();
-
+    
         $stamping = Stamping::where('user_id', $userId)
                             ->where('date', $date)
                             ->first();

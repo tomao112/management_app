@@ -1,9 +1,9 @@
 <x-app-layout>
-    <x-slot name="header">
+    {{-- <x-slot name="header">
         <h2>
             {{ Auth::user()->name }}
         </h2>
-    </x-slot>
+    </x-slot> --}}
     <div>
         @if ($stamping)
             <p>日付: {{ $stamping->date }}</p>
@@ -12,8 +12,5 @@
         @else
             <p>本日の勤怠情報はありません。</p>
         @endif
-    </div>
-    <div>
-        <a href="{{ route('attendance.index') }}">勤務時間一覧</a>
     </div>
 </x-app-layout>
