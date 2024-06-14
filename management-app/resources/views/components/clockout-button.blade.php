@@ -1,6 +1,6 @@
 <form method="POST" action="{{ route('clock.out') }}">
     @csrf
-    <a href="" class="btn btn-malformation">退勤</a>
+    <button class="btn btn-malformation">退勤</button>
 </form>
 
 <style>
