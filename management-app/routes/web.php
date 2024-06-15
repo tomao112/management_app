@@ -17,6 +17,7 @@ Route::middleware([
     })->name('dashboard');
 
     Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+    Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance');
     Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
     Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
 });

@@ -58,4 +58,13 @@ class AttendanceController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function showAttendance()
+{
+    $userId = Auth::id();
+    $stampings = Stamping::where('user_id', $userId)->orderBy('date', 'desc')->get();
+
+    return view('attendance', compact('stampings'));
+}
+
 }

@@ -1,2 +1,2 @@
-git 前日分をコミット
-git commit --allow-empty -m "COMMIT" --date="Dec 29 23:59:59 2019 +0900"
+git 前日分をコミット用コマンド
+git commit --allow-empty -m "前日分コミット　出勤退勤ボタンの修正" --date="Jun 14 23:59:59 2024 +0900"
