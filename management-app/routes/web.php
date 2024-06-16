@@ -16,8 +16,11 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance');
+    Route::get('/attendance', [AttendanceController::class, 'index'])->name('attendance.index');
     Route::get('/attendance', [AttendanceController::class, 'showAttendance'])->name('attendance');
+    Route::post('/start-break', [AttendanceController::class, 'startBreak'])->name('start.break');
+    Route::post('/end-break', [AttendanceController::class, 'endBreak'])->name('end.break');
+    // Route::get('/attendance', [AttendanceController::class, 'getBreakTime'])->name('attendance');
     Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
     Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
 });

@@ -1,6 +1,6 @@
-<form method="POST" action="{{ route('clock.in') }}">
+{{-- <form method="POST" action="{{ route('clock.in') }}">
     @csrf
-    <button class="btn btn-malformation">出勤</button>
+    <button class="btn btn-malformation">休憩</button>
 </form>
 
 <style>
@@ -31,4 +31,4 @@
         border-color: #d35400;
         color: #d35400;
     }
-</style>
+</style> --}}

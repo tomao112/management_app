@@ -18,6 +18,11 @@ class Stamping extends Model
         'clock_out',
     ];
 
+    public function breaks()
+    {
+        return $this->hasMany(BreakTime::class);
+    }
+
     public function user()
     {
         return $this->belongsTo(User::class);
