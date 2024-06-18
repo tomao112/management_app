@@ -125,13 +125,13 @@ class AttendanceController extends Controller
                             ->first();
         
         if ($stamping) {
-            $clockIn = $stamping->clock_in;
-            $clockOut = $stamping->clock_out;
-
+            $clockIn = Carbon::parse($stamping->clock_in);
+            $clockOut = $stamping->clock_out ? Carbon::parse($stamping->clock_out) : Carbon::now();
+    
             $breaks = BreakTime::where('stamping_id', $stamping->id)->get();
-
+    
             $totalBreakTime = 0;
-
+    
             foreach ($breaks as $break) {
                 if ($break->start_time && $break->end_time) {
                     $startTime = Carbon::parse($break->start_time);
@@ -140,23 +140,28 @@ class AttendanceController extends Controller
                     $totalBreakTime += $breakDuration;
                 }
             }
-
-            $workDuration = Carbon::parse($clockOut)->diffInMinutes($clockIn) - $totalBreakTime;
-
+    
+            $workDuration = $clockOut->diffInMinutes($clockIn) - $totalBreakTime;
+    
             return [
-                'clockIn' => $clockIn,
-                'clockOut' => $clockOut,
+                'clockIn' => $clockIn->format('H:i'),
+                'clockOut' => $clockOut->format('H:i'),
                 'totalBreakTime' => $this->formatTime($totalBreakTime),
                 'workDuration' => $this->formatTime($workDuration),
             ];
         }
+    
         return null;
     }
 
     private function formatTime($minutes)
     {
-        $hours = floor($minutes / 60);
-        $remainingMinutes = $minutes % 60;
-        return sprintf("%d時間%d分", $hours, $remainingMinutes);
+        if ($minutes >= 60) {
+            $hours = floor($minutes / 60);
+            $minutes = $minutes % 60;
+            return "{$hours}時間{$minutes}分";
+        }
+    
+        return "{$minutes}分";
     }
 }
