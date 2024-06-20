@@ -15,6 +15,7 @@
                             <th class="border border-gray-300 px-4 py-2 text-gray-800">日付</th>
                             <th class="border border-gray-300 px-4 py-2 text-gray-800">出勤時間</th>
                             <th class="border border-gray-300 px-4 py-2 text-gray-800">退勤時間</th>
+                            <th class="border border-gray-300 px-4 py-2 text-gray-800">休憩時間</th>
                             <th class="border border-gray-300 px-4 py-2 text-gray-800">実働時間</th>
                         </tr>
                     </thead>
@@ -30,6 +31,9 @@
                                     @else
                                         -
                                     @endif
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">休憩時間
+                                </td>
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">{{ $stamping->workDuration }}
                                 </td>

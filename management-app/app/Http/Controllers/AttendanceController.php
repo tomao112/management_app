@@ -126,7 +126,7 @@ class AttendanceController extends Controller
         
         if ($stamping) {
             $clockIn = Carbon::parse($stamping->clock_in);
-            $clockOut = $stamping->clock_out ? Carbon::parse($stamping->clock_out) : Carbon::now();
+            $clockOut = $stamping->clock_out ? Carbon::parse($stamping->clock_out) : null;
     
             $breaks = BreakTime::where('stamping_id', $stamping->id)->get();
     
@@ -141,27 +141,26 @@ class AttendanceController extends Controller
                 }
             }
     
-            $workDuration = $clockOut->diffInMinutes($clockIn) - $totalBreakTime;
+            // 実働時間を計算する
+            $workDuration = $clockOut ? $clockOut->diffInMinutes($clockIn) - $totalBreakTime : 0;
     
             return [
-                'clockIn' => $clockIn->format('H:i'),
-                'clockOut' => $clockOut->format('H:i'),
+                'clockIn' => $clockIn->format('H:i:s'),
+                'clockOut' => $clockOut ? $clockOut->format('H:i:s') : '-',
                 'totalBreakTime' => $this->formatTime($totalBreakTime),
-                'workDuration' => $this->formatTime($workDuration),
+                'workDuration' => $clockOut ? $this->formatTime($workDuration) : '-',
             ];
         }
-    
         return null;
     }
-
+    
     private function formatTime($minutes)
     {
-        if ($minutes >= 60) {
-            $hours = floor($minutes / 60);
-            $minutes = $minutes % 60;
-            return "{$hours}時間{$minutes}分";
-        }
-    
-        return "{$minutes}分";
+        $hours = intdiv($minutes, 60);
+        $minutes = $minutes % 60;
+        return sprintf('%02d:%02d', $hours, $minutes);
     }
+    
+    
+
 }
