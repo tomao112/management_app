@@ -141,18 +141,19 @@ class AttendanceController extends Controller
                 }
             }
     
-            // 実働時間を計算する
+            // 実働時間を計算する（退勤時間から出勤時間を引く）
             $workDuration = $clockOut ? $clockOut->diffInMinutes($clockIn) - $totalBreakTime : 0;
     
             return [
-                'clockIn' => $clockIn->format('H:i:s'),
-                'clockOut' => $clockOut ? $clockOut->format('H:i:s') : '-',
+                'clockIn' => $clockIn->format('H:i'),
+                'clockOut' => $clockOut ? $clockOut->format('H:i') : '-',
                 'totalBreakTime' => $this->formatTime($totalBreakTime),
                 'workDuration' => $clockOut ? $this->formatTime($workDuration) : '-',
             ];
         }
         return null;
     }
+
     
     private function formatTime($minutes)
     {
@@ -160,7 +161,4 @@ class AttendanceController extends Controller
         $minutes = $minutes % 60;
         return sprintf('%02d:%02d', $hours, $minutes);
     }
-    
-    
-
 }

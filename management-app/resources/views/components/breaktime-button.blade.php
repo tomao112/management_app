@@ -1,34 +1,28 @@
-{{-- <form method="POST" action="{{ route('clock.in') }}">
+<!-- Bladeテンプレート内のHTML -->
+<form id="break-form" method="POST">
     @csrf
-    <button class="btn btn-malformation">休憩</button>
+    <button id="break-button" class="btn btn-primary" onclick="toggleBreakButton(event)">
+        休憩開始
+    </button>
 </form>
 
-<style>
-    .btn,
-    a.btn,
-    button.btn {
-        margin-left: 1rem;
-        font-size: 1.6rem;
-        line-height: 1.5;
-        cursor: pointer;
-        user-select: none;
-        text-align: center;
-        vertical-align: middle;
-        text-decoration: none;
-        letter-spacing: 0.1em;
-        color: #eb6100;
-        border: 2px solid #eb6100;
-        border-radius: 50%;
-        width: 130px !important;
-        height: 130px !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-color: transparent;
-    }
+<!-- JavaScript -->
+<script>
+    function toggleBreakButton(event) {
+        event.preventDefault(); // デフォルトのフォームサブミットをキャンセル
 
-    .btn:hover {
-        border-color: #d35400;
-        color: #d35400;
+        var button = document.getElementById('break-button');
+        var form = document.getElementById('break-form');
+
+        if (button.textContent.trim() === '休憩開始') {
+            // 休憩開始ボタンを押したときの処理
+            form.action = "{{ route('start.break') }}"; // 休憩開始のルートに設定
+        } else {
+            // 休憩終了ボタンを押したときの処理
+            form.action = "{{ route('end.break') }}"; // 休憩終了のルートに設定
+        }
+
+        // フォームのサブミットを実行
+        form.submit();
     }
-</style> --}}
+</script>

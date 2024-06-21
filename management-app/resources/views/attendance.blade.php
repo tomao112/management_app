@@ -24,10 +24,10 @@
                             <tr class="hover:bg-gray-100">
                                 <td class="border border-gray-300 px-4 py-2 text-center">{{ $stamping->date }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">
-                                    {{ \Carbon\Carbon::parse($stamping->clock_in)->format('H:i:s') }}</td>
+                                    {{ \Carbon\Carbon::parse($stamping->clock_in)->format('H:i') }}</td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">
                                     @if ($stamping->clock_out)
-                                        {{ \Carbon\Carbon::parse($stamping->clock_out)->format('H:i:s') }}
+                                        {{ \Carbon\Carbon::parse($stamping->clock_out)->format('H:i') }}
                                     @else
                                         -
                                     @endif

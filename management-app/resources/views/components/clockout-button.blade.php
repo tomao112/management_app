@@ -12,7 +12,6 @@
         width: 100%;
         max-width: 250px;
         height: 3.5em;
-        background: #fff;
         position: relative;
         border: none;
         /* ボタンのデフォルトのボーダーを削除 */
