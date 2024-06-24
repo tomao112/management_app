@@ -49,6 +49,7 @@ return [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),
             'lock_path' => storage_path('framework/cache/data'),
+            'time_zone' => 'Asia/Tokyo', // ここでタイムゾーンを設定
         ],
 
         'memcached' => [

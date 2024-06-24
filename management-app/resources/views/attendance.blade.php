@@ -32,10 +32,11 @@
                                         -
                                     @endif
                                 </td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">休憩時間
+                                <td class="border border-gray-300 px-4 py-2 text-center">
+                                    {{ \Carbon\Carbon::parse($stamping->totalBreakTime)->format('H:i') }}
                                 </td>
-                                </td>
-                                <td class="border border-gray-300 px-4 py-2 text-center">{{ $stamping->workDuration }}
+                                <td class="border border-gray-300 px-4 py-2 text-center">
+                                    {{ \Carbon\Carbon::parse($stamping->workDuration)->format('H:i') }}
                                 </td>
                             </tr>
                         @endforeach
