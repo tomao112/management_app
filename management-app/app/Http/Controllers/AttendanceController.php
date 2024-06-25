@@ -118,6 +118,28 @@ class AttendanceController extends Controller
         return redirect()->route('dashboard');
     }
 
+    public function getBreakStatus()
+    {
+        $userId = Auth::id();
+        $date = Carbon::today()->toDateString();
+
+        $stamping = Stamping::where('user_id', $userId)
+                            ->where('date', $date)
+                            ->first();
+
+        if ($stamping) {
+            $lastBreak = BreakTime::where('stamping_id', $stamping->id)
+                                ->latest()
+                                ->first();
+
+            if ($lastBreak && !$lastBreak->end_time) {
+                return response()->json(['onBreak' => true]);
+            }
+        }
+
+        return response()->json(['onBreak' => false]);
+    }
+
     // ユーザーの過去の出退勤情報と休憩時間の一覧を表示
     public function showAttendance()
     {

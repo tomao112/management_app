@@ -6,8 +6,8 @@
     <div class="flex items-center justify-center space-x-4">
         <x-clockin-button />
         <x-clockout-button />
+        <x-breaktime-button />
     </div>
-    <x-breaktime-button />
     </div>
     </div>
 

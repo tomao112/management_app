@@ -33,10 +33,10 @@
                                     @endif
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">
-                                    {{ \Carbon\Carbon::parse($stamping->totalBreakTime)->format('H:i') }}
+                                    {{ $stamping->totalBreakTime }}
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">
-                                    {{ \Carbon\Carbon::parse($stamping->workDuration)->format('H:i') }}
+                                    {{ $stamping->workDuration }}
                                 </td>
                             </tr>
                         @endforeach
