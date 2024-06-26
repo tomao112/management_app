@@ -21,6 +21,7 @@ Route::middleware([
     Route::post('/start-break', [AttendanceController::class, 'startBreak'])->name('start.break');
     Route::post('/end-break', [AttendanceController::class, 'endBreak'])->name('end.break');
     Route::get('/break-status', [AttendanceController::class, 'getBreakStatus'])->name('break.status');
+    Route::get('/attendance/status', [AttendanceController::class, 'getAttendanceStatus'])->name('attendance.status');
     Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
     Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
 });

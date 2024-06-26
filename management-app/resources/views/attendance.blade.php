@@ -38,6 +38,10 @@
                                 <td class="border border-gray-300 px-4 py-2 text-center">
                                     {{ $stamping->workDuration }}
                                 </td>
+                                </td>
+                                <td class="border border-gray-300 px-4 py-2 text-center">
+                                    <a href="">修正</a>
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

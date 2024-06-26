@@ -57,21 +57,48 @@
 <!-- JavaScript -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        fetchBreakStatus();
+        fetchAttendanceAndBreakStatus();
     });
 
-    function fetchBreakStatus() {
-        fetch("{{ route('break.status') }}")
+    function fetchAttendanceAndBreakStatus() {
+        // 出退勤状態を取得
+        fetch("{{ route('attendance.status') }}")
             .then(response => response.json())
-            .then(data => {
-                var buttonText = document.getElementById('break-button-text');
-                if (data.onBreak) {
-                    buttonText.textContent = '休憩終了';
+            .then(attendanceData => {
+                var clockInButton = document.getElementById('clock-in-button');
+                var clockOutButton = document.getElementById('clock-out-button');
+                var breakButton = document.getElementById('break-button');
+                var breakButtonText = document.getElementById('break-button-text');
+
+                if (attendanceData.clockIn && !attendanceData.clockOut) {
+                    clockInButton.disabled = true;
+                    clockOutButton.disabled = false;
+                    breakButton.disabled = false;
+                } else if (attendanceData.clockIn && attendanceData.clockOut) {
+                    clockInButton.disabled = true;
+                    clockOutButton.disabled = true;
+                    breakButton.disabled = true;
                 } else {
-                    buttonText.textContent = '休憩開始';
+                    clockInButton.disabled = false;
+                    clockOutButton.disabled = true;
+                    breakButton.disabled = true;
+                }
+
+                // 休憩状態を取得
+                return fetch("{{ route('break.status') }}");
+            })
+            .then(response => response.json())
+            .then(breakData => {
+                if (breakData.onBreak) {
+                    breakButtonText.textContent = '休憩終了';
+                    if (!clockOutButton.disabled) {
+                        breakButton.disabled = false;
+                    }
+                } else {
+                    breakButtonText.textContent = '休憩開始';
                 }
             })
-            .catch(error => console.error('Error fetching break status:', error));
+            .catch(error => console.error('Error fetching attendance and break status:', error));
     }
 
     function toggleBreakButton(event) {

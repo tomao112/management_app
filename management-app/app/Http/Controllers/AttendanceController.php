@@ -185,14 +185,14 @@ class AttendanceController extends Controller
                 if ($break->start_time && $break->end_time) {
                     $startTime = Carbon::parse($break->start_time, 'Asia/Tokyo');
                     $endTime = Carbon::parse($break->end_time, 'Asia/Tokyo');
-                    $breakDuration = $endTime->diffInMinutes($startTime);
+                    $breakDuration = $startTime->diffInMinutes($endTime);
                     $totalBreakTime += $breakDuration;
                 }
             }
     
             // 実働時間を計算する（退勤時間から出勤時間を引く）
             if ($clockOut) {
-                $workDuration = $clockIn->diffInMinutes($clockOut);
+                $workDuration = $clockIn->diffInMinutes($clockOut) - $totalBreakTime;
             } else {
                 $workDuration = 0;
             }
@@ -238,4 +238,23 @@ class AttendanceController extends Controller
         $minutes = $minutes % 60;
         return sprintf('%02d:%02d', $hours, $minutes);
     }
+
+    // 初期値で退勤ボタンを、出勤時に退勤ボタンを押せないように
+    public function getAttendanceStatus()
+    {
+    $userId = Auth::id();
+    $date = Carbon::today()->toDateString();
+
+    $stamping = Stamping::where('user_id', $userId)
+                        ->where('date', $date)
+                        ->first();
+
+    $status = [
+        'clockIn' => $stamping && $stamping->clock_in ? true : false,
+        'clockOut' => $stamping && $stamping->clock_out ? true : false
+    ];
+
+    return response()->json($status);
+    }
+
 }
