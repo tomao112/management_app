@@ -239,7 +239,7 @@ class AttendanceController extends Controller
         return sprintf('%02d:%02d', $hours, $minutes);
     }
 
-    // 初期値で退勤ボタンを、出勤時に退勤ボタンを押せないように
+    // 初期値で退勤ボタンを、出勤時に出勤ボタンを押せないように
     public function getAttendanceStatus()
     {
     $userId = Auth::id();
@@ -256,5 +256,29 @@ class AttendanceController extends Controller
 
     return response()->json($status);
     }
+
+    public function edit($id)
+{
+    $stamping = Stamping::findOrFail($id);
+    return view('attendance.edit', compact('stamping'));
+}
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'clock_in' => 'required|date_format:H:i',
+        'clock_out' => 'nullable|date_format:H:i',
+    ]);
+
+    $stamping = Stamping::findOrFail($id);
+    $stamping->clock_in = Carbon::createFromFormat('H:i', $request->clock_in);
+    if ($request->clock_out) {
+        $stamping->clock_out = Carbon::createFromFormat('H:i', $request->clock_out);
+    }
+    $stamping->save();
+
+    return redirect()->route('attendance')->with('success', '勤務時間が更新されました');
+}
+
 
 }

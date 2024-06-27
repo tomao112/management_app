@@ -40,7 +40,8 @@
                                 </td>
                                 </td>
                                 <td class="border border-gray-300 px-4 py-2 text-center">
-                                    <a href="">修正</a>
+                                    <a href="{{ route('attendance.edit', $stamping->id) }}"
+                                        class="text-blue-600 hover:text-blue-900">修正</a>
                                 </td>
                             </tr>
                         @endforeach

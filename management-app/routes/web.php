@@ -24,4 +24,6 @@ Route::middleware([
     Route::get('/attendance/status', [AttendanceController::class, 'getAttendanceStatus'])->name('attendance.status');
     Route::post('/clock-in', [AttendanceController::class, 'clockIn'])->name('clock.in');
     Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
+    Route::get('/attendance/edit/{id}', [AttendanceController::class, 'edit'])->name('attendance.edit');
+    Route::post('/attendance/update/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
 });
