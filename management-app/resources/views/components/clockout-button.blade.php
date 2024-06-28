@@ -1,7 +1,9 @@
 <!-- Bladeテンプレート内のHTML -->
 <form class="btn_form" method="POST" action="{{ route('clock.out') }}">
     @csrf
-    <button id="clock-out-button" class="shadow_btn01"><span>退勤</span></button>
+    <button id="clock-out-button" class="shadow_btn01" onclick="submitClockOut(event)">
+        <span>退勤</span>
+    </button>
 </form>
 
 <style>
@@ -70,8 +72,8 @@
     });
 
     function fetchAttendanceStatus() {
-        fetch("{{ route('attendance.status') }}") //fetchを使用してサーバーから出退勤情報を取得
-            .then(response => response.json()) //json形式で変換
+        fetch("{{ route('attendance.status') }}")
+            .then(response => response.json())
             .then(data => {
                 var clockInButton = document.getElementById('clock-in-button');
                 var clockOutButton = document.getElementById('clock-out-button');
@@ -91,27 +93,22 @@
             .catch(error => console.error('Error fetching attendance status:', error));
     }
 
-    // 出勤ボタンクリック時にpreeventDefaultを呼び出す
-    document.getElementById('clock-in-button').addEventListener('click', function(event) {
+    // 出退勤ボタンのフォーム送信を防止する関数
+    function preventFormSubmit(event) {
         event.preventDefault();
-        var button = this;
+        return false;
+    }
+
+    // 退勤ボタンクリック時の処理
+    function submitClockOut(event) {
+        event.preventDefault(); // フォームのデフォルトの送信をキャンセル
+        var button = document.getElementById('clock-out-button');
         var form = button.closest('form');
 
-        // 出勤ボタンを無効化し、退勤ボタンを有効化
+        // ボタンを無効化
         button.disabled = true;
-        document.getElementById('clock-out-button').disabled = false;
 
         // フォームの送信
         form.submit();
-    });
-
-    document.getElementById('clock-out-button').addEventListener('click', function(event) {
-        event.preventDefault();
-        var button = this;
-        var form = button.closest('form');
-
-        button.disabled = true;
-
-        form.submit();
-    });
+    }
 </script>
