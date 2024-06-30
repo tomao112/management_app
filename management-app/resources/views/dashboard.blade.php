@@ -6,6 +6,8 @@
     <div class="flex items-center justify-center space-x-4">
         <x-clockin-button />
         <x-clockout-button />
+    </div>
+    <div class="flex items-center justify-center space-x-4 mt-4">
         <x-break />
     </div>
     </div>
