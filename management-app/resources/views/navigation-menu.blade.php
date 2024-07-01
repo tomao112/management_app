@@ -18,6 +18,9 @@
                     <x-nav-link href="{{ route('attendance') }}" :active="request()->routeIs('attendance')">
                         勤務時間一覧
                     </x-nav-link>
+                    <x-nav-link href="{{ route('attendance.monthly') }}" :active="request()->routeIs('attendance.monthly')">
+                        合計勤務時間
+                    </x-nav-link>
                 </div>
             </div>
 

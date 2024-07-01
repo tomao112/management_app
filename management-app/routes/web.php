@@ -26,4 +26,4 @@ Route::middleware([
     Route::post('/clock-out', [AttendanceController::class, 'clockOut'])->name('clock.out');
     Route::get('/attendance/edit/{id}', [AttendanceController::class, 'edit'])->name('attendance.edit');
     Route::post('/attendance/update/{id}', [AttendanceController::class, 'update'])->name('attendance.update');
-});
+    Route::get('/attendance/monthly', [AttendanceController::class, 'showMonthlyAttendance'])->name('attendance.monthly');});

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Stamping;
 use App\Models\BreakTime;
+use App\Models\Attendance;
 use Illuminate\Support\Facades\Auth;
 use Carbon\Carbon;
 
@@ -258,13 +259,13 @@ class AttendanceController extends Controller
     }
 
     public function edit($id)
-{
+    {
     $stamping = Stamping::findOrFail($id);
     return view('attendance.edit', compact('stamping'));
-}
+    }
 
-public function update(Request $request, $id)
-{
+    public function update(Request $request, $id)
+    {
     $request->validate([
         'clock_in' => 'required|date_format:H:i',
         'clock_out' => 'nullable|date_format:H:i',
@@ -278,7 +279,65 @@ public function update(Request $request, $id)
     $stamping->save();
 
     return redirect()->route('attendance')->with('success', '勤務時間が更新されました');
-}
+    }
+
+    // 一か月の勤務時間合計を表示
+    public function showMonthlyAttendance(Request $request)
+    {
+        $userId = Auth::id();
+        $year = $request->input('year', Carbon::now()->year);
+        $month = $request->input('month', Carbon::now()->month);
+
+        // ユーザーの指定された月の勤務記録を取得
+        $stampings = Stamping::where('user_id', $userId)
+            ->whereYear('date', $year)
+            ->whereMonth('date', $month)
+            ->get();
+
+        $totalSeconds = 0;
+        $dailyHours = [];
+
+        // 各日の勤務時間を計算
+        foreach ($stampings as $stamping) {
+            if ($stamping->clock_in && $stamping->clock_out) {
+                $clockIn = Carbon::parse($stamping->clock_in);
+                $clockOut = Carbon::parse($stamping->clock_out);
+                $secondsWorked = $clockIn->diffInSeconds($clockOut);
+                $totalSeconds += $secondsWorked;
+                $date = Carbon::parse($stamping->date)->toDateString();
+                $dailyHours[$date] = $this->secondsToHMS($secondsWorked);
+            }
+        }
+
+        // 合計勤務時間をH:i:s形式で取得
+        $totalHours = $this->secondsToHMS($totalSeconds);
+
+        // 月ごとのリンクを生成
+        $months = $this->generateMonthLinks($year);
+
+        return view('attendance.monthly', compact('totalHours', 'dailyHours', 'year', 'month', 'months'));
+    }
+
+    private function secondsToHMS($seconds)
+    {
+        $hours = floor($seconds / 3600);
+        $minutes = floor(($seconds % 3600) / 60);
+        $seconds = $seconds % 60;
+        return sprintf('%02d:%02d:%02d', $hours, $minutes, $seconds);
+    }
+
+    private function generateMonthLinks($year)
+    {
+        $months = [];
+        for ($month = 1; $month <= 12; $month++) {
+            $months[] = [
+                'year' => $year,
+                'month' => $month,
+                'link' => route('attendance.monthly', ['year' => $year, 'month' => $month])
+            ];
+        }
+        return $months;
+    }
 
 
 }
